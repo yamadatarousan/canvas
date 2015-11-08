@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+<style>
+
+@charset "UTF-8";
+
+.character {
+	background: url(../images.png) 0 0 no-repeat #ccc;
+	height: 0;
+	overflow: hidden;
+	padding-top: 64px;
+	width: 64px;
+	margin: 100px auto 0;
+}
+
+</style>
+
+</head>
+<body>
+<canvas id="canvas" style="position:absolute; left:0; top:0; z-index:1;"></canvas>
+<canvas id="canvas_back" style="position:absolute; left:0; top:0; z-index:0;"></canvas>
+
+<script>
+function character(){
+	var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext("2d");
+	var img = new Image();
+	var row = 64;
+	var col = 64;
+	var step = 0;
+	var limit = 7;
+	var move = 0;
+	var ax = 3;
+	canvas.width = 198;
+    canvas.height = 80;
+
+	img.src = "images.png";
+
+	function render(){
+		ctx.clearRect(0, 0, 500, 100);
+		// ctx.fillStyle = "rgb(200, 0, 0)";
+		// ctx.fillRect(move + row - 5, 20, 500 - move + row, 40);
+		// ctx.fillStyle = "rgb(175, 0, 0)";
+		// ctx.fillRect(move + row - 5, 55, 500 - move + row, 5);
+		// ctx.fillStyle = "rgb(255, 255, 255)";
+		// ctx.font = "16px/2 sans-serif";
+		// ctx.fillText("MY HP", move + row + 5, 45);
+
+		ctx.drawImage(img, row * step, 0, row, col, move, 0, row, col);
+		if(step < limit){
+			step++;
+		}else{
+			step = 0;
+		}
+		if(move < 198 - row){
+			move = move+ax;
+		}else{
+			move = 0;
+		}
+		setTimeout(render, 50);
+	}
+
+	img.onload = function(){
+		render();
+	}
+
+}
+
+function background(){
+	var canvas = document.getElementById('canvas_back');
+	var ctx = canvas.getContext("2d");
+	var img = new Image();
+	img.onload = function(){
+		ctx.drawImage(img, 0, 0);
+	}
+	img.src = "granblue/quest_bg_back_04qb_fix_img_cut.jpg";
+}
+
+character();
+background();
+
+
+</script>
+
+
+</body>
+</html>
