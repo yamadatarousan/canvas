@@ -5,7 +5,7 @@
 </head>
 <body>
 
-	<canvas id="canvas" width="270" height="199" style="width:270px;height:199px;"></canvas>
+	<canvas id="canvas" width="1280" height="720" style="width:640px;height:350px;"></canvas>
 
 <script>
 window.onload = function()
@@ -14,31 +14,44 @@ window.onload = function()
 	var ctx = cvs.getContext('2d');
 	var bgimg = new Image();
 	var charaimg = new Image();
+	var enemyimg = new Image();
+	var chara_scale = 1.5;
+	var chara_x = 600;
+	var chara_y = 250;
+	var enemy_scale = 1;
+	var enemy_x = 200;
+	var enemy_y = 250;
 
-	bgimg.src = 'granblue/quest_bg_back_04qb_land_img.png';
+
+	bgimg.src = 'bg_01.jpg';
 	bgimg.onload = function()
 	{
 		ctx.drawImage(bgimg, 0 , 0);
+
+		charaimg.src = 'viela.png'
+		charaimg.onload = function()
+		{
+			ctx.drawImage(charaimg, chara_x, chara_y, charaimg.width*chara_scale, charaimg.height*chara_scale);
+		}
+
+		enemyimg.src = 'enemy_01.png';
+		enemyimg.onload = function()
+		{
+			ctx.drawImage(enemyimg, enemy_x, enemy_y, enemyimg.width*enemy_scale, enemyimg.height*enemy_scale);
+		}
+
+		document.onkeydown = function(e)
+		{
+			move(e.keyCode);
+		}
 	}
 
-	charaimg.src = 'viela.png'
-	charaimg.onload = function()
-	{
-		ctx.drawImage(charaimg, 50 , 0, charaimg.width*0.7, charaimg.height*0.7);
-	}
-
-	document.onkeydown = function(e)
-	{
-		move(e.keyCode);
-	}
 
 	function move(input_key)
 	{
 		var cvs = document.getElementById('canvas');
 		var ctx = cvs.getContext('2d');
 		var cnt = 0;
-		var x = 50;
-		var y = 0;
 
 		function render()
 		{
@@ -46,29 +59,30 @@ window.onload = function()
 
 			if(input_key==37)
 			{
-				x = x-1;
+				chara_x = chara_x-5;
 			}
 			if(input_key==38)
 			{
 				// 上に移動
-				y = y-1;
+				chara_y = chara_y-5;
 			}
 			if(input_key==39)
 			{
 				// 右に移動
-				x = x+1;
+				chara_x = chara_x+5;
 
 			}
 			if(input_key==40)
 			{
 				// 下に移動
-				y = y+1;
+				chara_y = chara_y+5;
 			}
 
 			ctx.drawImage(bgimg, 0 , 0);
-			ctx.drawImage(charaimg, x , y, charaimg.width*0.7, charaimg.height*0.7);
+			ctx.drawImage(enemyimg, enemy_x, enemy_y, enemyimg.width*enemy_scale, enemyimg.height*enemy_scale);
+			ctx.drawImage(charaimg, chara_x , chara_y, charaimg.width*chara_scale, charaimg.height*chara_scale);
 
-			if(++cnt === 30)
+			if(++cnt === 5)
 			{
 				return;
 			}
